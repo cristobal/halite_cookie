@@ -21,7 +21,8 @@
         "source":   "https://github.com/paragonie/halit_cookie"
     },
     "require": {
-        "php": ">= 5.5.9"
+        "php": ">= 5.5.9",
+        "ext-libsodium": ">= 0.1.0"
     },
     "autoload": {
         "psr-4": {

@@ -15,9 +15,7 @@ before_install:
 - ./configure && make check
 - sudo make install
 - cd ..
-- sudo pecl install libsodium-beta
-- echo "extension=libsodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- phpenv config-add myconfig.ini
+- pecl install libsodium-beta
 
 install:
 
