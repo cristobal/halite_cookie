@@ -27,7 +27,7 @@ class Halite
                 $this->key->getKey()
             )
         );
-        \Sodium::memzero($plaintext);
+        \Sodium::sodium_memzero($plaintext);
         return $encrypted;
     }
     
@@ -40,7 +40,7 @@ class Halite
     public function decrypt($encoded)
     {
         $decoded = \base64_decode($encoded);
-        \Sodium::memzero($encoded);
+        \Sodium::sodium_memzero($encoded);
         $nonce = \mb_substr($decoded, 0, \Sodium::CRYPTO_SECRETBOX_NONCEBYTES, '8bit');
         $ciphertext = \mb_substr($decoded, \Sodium::CRYPTO_SECRETBOX_NONCEBYTES, null, '8bit');
         $decrypted = \Sodium::crypto_secretbox_open(
@@ -48,9 +48,9 @@ class Halite
             $nonce,
             $this->key->getKey()
         );
-        \Sodium::memzero($decoded);
-        \Sodium::memzero($nonce);
-        \Sodium::memzero($ciphertext);
+        \Sodium::sodium_memzero($decoded);
+        \Sodium::sodium_memzero($nonce);
+        \Sodium::sodium_memzero($ciphertext);
         return $decrypted;
     }   
 }

@@ -48,7 +48,7 @@ final class Key
             \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_MEMLIMIT_INTERACTIVE
         );
         
-        \Sodium::memzero($password);
+        \Sodium::sodium_memzero($password);
         return $this;
     }
     
