@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-if [ $1 == 'full' ]; then
-    fulltest=1
-else
-    fulltest=0
-fi
 origdir=`pwd`
 cdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $origdir
@@ -52,24 +47,6 @@ if [ $? -eq 0 ]; then
     if [ $? -ne 0 ]; then
         # Test failure
         exit 1
-    fi
-    php -d open_basedir=$parentdir phpunit.phar --bootstrap "$parentdir/vendor/autoload.php" "$parentdir/tests/unit"
-    if [ $? -ne 0 ]; then
-        # Test failure
-        exit 1
-    fi
-    php -d mbstring.func_overload=7 phpunit.phar --bootstrap "$parentdir/vendor/autoload.php" "$parentdir/tests/unit"
-    if [ $? -ne 0 ]; then
-        # Test failure
-        exit 1
-    fi
-    # Should we perform full statistical analyses?
-    if [ $fulltest -eq 1 ]; then
-        php phpunit.phar --bootstrap "$parentdir/vendor/autoload.php" "$parentdir/tests/full"
-        if [ $? -ne 0 ]; then
-            # Test failure
-            exit 1
-        fi
     fi
     # Cleanup
     if [ "$clean" -eq 1 ]; then

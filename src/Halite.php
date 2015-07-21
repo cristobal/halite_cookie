@@ -51,6 +51,6 @@ class Halite
         \Sodium::sodium_memzero($decoded);
         \Sodium::sodium_memzero($nonce);
         \Sodium::sodium_memzero($ciphertext);
-        return $decrypted;
+        return \json_decode($decrypted, true);
     }   
 }
