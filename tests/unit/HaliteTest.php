@@ -12,7 +12,7 @@ class HaliteTest extends PHPUnit_Framework_TestCase
         
         $encrypted = $halite->encrypt($msg);
         $this->assertNotEmpty($encrypted);
-        $this->assertEquals(\mb_strlen($encrypted), 80);
+        $this->assertEquals(\mb_strlen($encrypted, '8bit'), 80);
         $decrypted = $halite->decrypt($encrypted);
         $this->assertEquals($decrypted, $msg);
     }

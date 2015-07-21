@@ -1,5 +1,7 @@
 # Halite 
 
+[![Build Status](https://travis-ci.org/paragonie/halite_cookie.svg?branch=master)](https://travis-ci.org/paragonie/halite_cookie)
+
 Encrypted Cookies in PHP with [Libsodium](https://github.com/jedisct1/libsodium-php).
 
 An open source project by [Paragon Initiative Enterprises](https://paragonie.com).
