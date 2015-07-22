@@ -5,6 +5,7 @@ final class Key
 {
     private $secretbox_key;
     const MIN_COMPRESSED_KEYSIZE = 24; // 75% of CRYPTO_SECRETBOX_KEYBYTES
+    const MIN_COMPRESSED_SALTSIZE = 24; // 75% of CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES
     
     public function __construct($key = null)
     {
@@ -40,11 +41,7 @@ final class Key
      */
     public function derive($password, $salt, $len = \Sodium::CRYPTO_SECRETBOX_KEYBYTES)
     {
-        if (\mb_strlen($salt, '8bit') !== \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES) {
-            throw new \Exception(
-                'Salt must be '.\Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES.' bytes long'
-            );
-        }
+        $this->testSaltEntropy($salt);
         
         $this->secretbox_key = \Sodium::crypto_pwhash_scryptsalsa208sha256(
             $len,
@@ -97,14 +94,40 @@ final class Key
             if ($dont_throw) {
                 return false;
             }
-            throw new \Exception("You must use an encryption key. A password will not work. Use derive() instead.");
+            throw new \Exception("You must use an encryption key. A password will not work. Use generate() to create a proper encryption key.");
         }
         $compressed = \gzcompress($key, 9);
         if (mb_strlen($compressed, '8bit') < self::MIN_COMPRESSED_KEYSIZE) {
             if ($dont_throw) {
                 return false;
             }
-            throw new \Exception("You must use an encryption key. A password will not work. Use derive() instead.");
+            throw new \Exception("You must use an encryption key. A password will not work. Use generate() to create a proper encryption key.");
+        }
+        return true;
+    }
+    
+    /**
+     * Test that a given salt is the proper length and has sufficient entropy
+     * 
+     * @param string $salt Should be a 32-byte random key
+     * @param boolean $dont_throw Should we just return false instead of throwing an exception?
+     * @return boolean
+     * @throws \Exception
+     */
+    public function testSaltEntropy($salt, $dont_throw = false)
+    {
+        if (mb_strlen($salt, '8bit') !== \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES) {
+            if ($dont_throw) {
+                return false;
+            }
+            throw new \Exception("You must use a random salt. A password will not work.");
+        }
+        $compressed = \gzcompress($key, 9);
+        if (mb_strlen($compressed, '8bit') < self::MIN_COMPRESSED_SALTSIZE) {
+            if ($dont_throw) {
+                return false;
+            }
+            throw new \Exception("You must use a random salt. A password will not work.");
         }
         return true;
     }
