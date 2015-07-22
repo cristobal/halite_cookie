@@ -36,6 +36,7 @@ class HaliteTest extends PHPUnit_Framework_TestCase
                 'co-wrecked hoarse assault maple',
                 \str_repeat('A', \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES)
             );
+            $this->assertFalse(true);
         } catch (Exception $e) {
             $key->derive(
                 'co-wrecked hoarse assault maple',
