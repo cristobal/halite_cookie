@@ -87,10 +87,11 @@ final class Key
      * Test that a given key is the proper length and has sufficient entropy
      * 
      * @param string $key Should be a 32-byte random key
+     * @param boolean $dont_throw Should we just return false instead of throwing an exception?
      * @return boolean
      * @throws \Exception
      */
-    private function testKeyEntropy($key, $dont_throw = false)
+    public function testKeyEntropy($key, $dont_throw = false)
     {
         if (mb_strlen($key, '8bit') !== \Sodium::CRYPTO_SECRETBOX_KEYBYTES) {
             if ($dont_throw) {
@@ -99,7 +100,7 @@ final class Key
             throw new \Exception("You must use an encryption key. A password will not work. Use derive() instead.");
         }
         $compressed = \gzcompress($key, 9);
-        if (mb_strlen($key, '8bit') < self::MIN_COMPRESSED_KEYSIZE) {
+        if (mb_strlen($compressed, '8bit') < self::MIN_COMPRESSED_KEYSIZE) {
             if ($dont_throw) {
                 return false;
             }
