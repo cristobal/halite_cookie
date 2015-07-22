@@ -122,7 +122,7 @@ final class Key
             }
             throw new \Exception("You must use a random salt. A password will not work.");
         }
-        $compressed = \gzcompress($key, 9);
+        $compressed = \gzcompress($salt, 9);
         if (mb_strlen($compressed, '8bit') < self::MIN_COMPRESSED_SALTSIZE) {
             if ($dont_throw) {
                 return false;
