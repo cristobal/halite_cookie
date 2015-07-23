@@ -49,4 +49,22 @@ class HaliteTest extends PHPUnit_Framework_TestCase
             \Sodium::CRYPTO_SECRETBOX_KEYBYTES
         );
     }
+    
+    public function testWeakKeys()
+    {
+        try {
+            $key = new \ParagonIE\Halite\Key('passwordpasswordpasswordpassword');
+            echo "Entropy fail!";
+            $this->assertTrue(false);
+        } catch (Exception $e) {
+            $key = new \ParagonIE\Halite\Key(
+                "\xF1\x02\xE3\x14\xD5\x26\xC7\x38\xB9\x4A\xAB\x5C\x9D\x6E\x7F\x80".
+                "\xF0\xD1\xC2\xB3\xE4\xA5\x96\x87\x78\x69\x5A\x4B\x3C\x2D\x1E\x0F"
+            );
+        }
+        $this->assertEquals(
+            \mb_strlen($key->getKey(), '8bit'),
+            \Sodium::CRYPTO_SECRETBOX_KEYBYTES
+        );
+    }
 }
