@@ -6,15 +6,15 @@ class HaliteTest extends PHPUnit_Framework_TestCase
         try {
             $halite = new \ParagonIE\Halite\Cookie(
                 new \ParagonIE\Halite\Key(
-                    \str_repeat('A', \Sodium::CRYPTO_SECRETBOX_KEYBYTES)
+                    \str_repeat('A', \Sodium\CRYPTO_SECRETBOX_KEYBYTES)
                 )
             );
             $this->assertFalse(true);
         } catch (Exception $e) {
             $halite = new \ParagonIE\Halite\Cookie(
                 new \ParagonIE\Halite\Key(
-                    \Sodium::randombytes_buf(
-                        \Sodium::CRYPTO_SECRETBOX_KEYBYTES
+                    \Sodium\randombytes_buf(
+                        \Sodium\CRYPTO_SECRETBOX_KEYBYTES
                     )
                 )
             );
@@ -34,7 +34,7 @@ class HaliteTest extends PHPUnit_Framework_TestCase
         try {
             $key->derive(
                 'co-wrecked hoarse assault maple',
-                \str_repeat('A', \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES)
+                \str_repeat('A', \Sodium\CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES)
             );
             $this->assertFalse(true);
         } catch (Exception $e) {
@@ -46,7 +46,7 @@ class HaliteTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals(
             \mb_strlen($key->getKey(), '8bit'),
-            \Sodium::CRYPTO_SECRETBOX_KEYBYTES
+            \Sodium\CRYPTO_SECRETBOX_KEYBYTES
         );
     }
     
@@ -54,7 +54,6 @@ class HaliteTest extends PHPUnit_Framework_TestCase
     {
         try {
             $key = new \ParagonIE\Halite\Key('passwordpasswordpasswordpassword');
-            echo "Entropy fail!";
             $this->assertTrue(false);
         } catch (Exception $e) {
             $key = new \ParagonIE\Halite\Key(
@@ -64,7 +63,7 @@ class HaliteTest extends PHPUnit_Framework_TestCase
         }
         $this->assertEquals(
             \mb_strlen($key->getKey(), '8bit'),
-            \Sodium::CRYPTO_SECRETBOX_KEYBYTES
+            \Sodium\CRYPTO_SECRETBOX_KEYBYTES
         );
     }
 }

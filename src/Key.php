@@ -25,10 +25,10 @@ final class Key
     public function generate()
     {
         do {
-            $this->secretbox_key = \Sodium::randombytes_buf(
-                \Sodium::CRYPTO_SECRETBOX_KEYBYTES
+            $this->secretbox_key = \Sodium\randombytes_buf(
+                \Sodium\CRYPTO_SECRETBOX_KEYBYTES
             );
-        } while ($this->testKeyEntropy($key, true));
+        } while ($this->testKeyEntropy($this->secretbox_key, true));
         return $this;
     }
     
@@ -41,7 +41,7 @@ final class Key
      * 
      * @return Key
      */
-    public function derive($password, $salt, $len = \Sodium::CRYPTO_SECRETBOX_KEYBYTES)
+    public function derive($password, $salt, $len = \Sodium\CRYPTO_SECRETBOX_KEYBYTES)
     {
         $this->testSaltEntropy($salt);
         
@@ -49,8 +49,8 @@ final class Key
             $len,
             $password, 
             $salt,
-            \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_OPSLIMIT_INTERACTIVE,
-            \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_MEMLIMIT_INTERACTIVE
+            \Sodium\CRYPTO_PWHASH_SCRYPTSALSA208SHA256_OPSLIMIT_INTERACTIVE,
+            \Sodium\CRYPTO_PWHASH_SCRYPTSALSA208SHA256_MEMLIMIT_INTERACTIVE
         );
         
         \Sodium::sodium_memzero($password);
@@ -58,14 +58,14 @@ final class Key
     }
     
     /**
-     * Get a new salt for use with 
+     * Get a new salt for use wih scrypt for key derivation
      * 
      * @return string
      */
     public static function newPasswordSalt()
     {
-        return \Sodium::randombytes_buf(
-            \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES
+        return \Sodium\randombytes_buf(
+            \Sodium\CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES
         );
     }
     
@@ -91,9 +91,9 @@ final class Key
     private function countBits($str)
     {
         $bits = [0,0];
-        $len = mb_strlen($str, '8bit');
+        $len = \mb_strlen($str, '8bit');
         for ($i = 0; $i < $len; ++$i) {
-            $c = ord($str[$i]);
+            $c = \ord($str[$i]);
             for ($j = 0; $j < 8; ++$j) {
                 if (($c & 0x01) === 0) {
                     ++$bits[0];
@@ -116,7 +116,7 @@ final class Key
      */
     public function testKeyEntropy($key, $dont_throw = false)
     {
-        if (mb_strlen($key, '8bit') !== \Sodium::CRYPTO_SECRETBOX_KEYBYTES) {
+        if (\mb_strlen($key, '8bit') !== \Sodium\CRYPTO_SECRETBOX_KEYBYTES) {
             if ($dont_throw) {
                 return false;
             }
@@ -149,7 +149,7 @@ final class Key
      */
     public function testSaltEntropy($salt, $dont_throw = false)
     {
-        if (mb_strlen($salt, '8bit') !== \Sodium::CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES) {
+        if (mb_strlen($salt, '8bit') !== \Sodium\CRYPTO_PWHASH_SCRYPTSALSA208SHA256_SALTBYTES) {
             if ($dont_throw) {
                 return false;
             }

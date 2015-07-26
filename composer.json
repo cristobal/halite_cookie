@@ -1,7 +1,7 @@
 {
     "name":         "paragonie/halite_cookie",
     "description":  "Encrypted Cookie Storage powered by libsodium",
-    "version":      "0.1.0",
+    "version":      "0.2.0",
     "keywords": [
             "cookies",
             "encryption"
@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">= 5.5.9",
-        "ext-libsodium": ">= 0.1.0"
+        "ext-libsodium": ">= 0.2.0"
     },
     "autoload": {
         "psr-4": {
