@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">= 5.5.9",
-        "ext-libsodium": ">= 0.2.0"
+        "ext-libsodium": ">= 0.2.1"
     },
     "autoload": {
         "psr-4": {
