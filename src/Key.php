@@ -45,7 +45,7 @@ final class Key
     {
         $this->testSaltEntropy($salt);
         
-        $this->secretbox_key = \Sodium::crypto_pwhash_scryptsalsa208sha256(
+        $this->secretbox_key = \Sodium\crypto_pwhash_scryptsalsa208sha256(
             $len,
             $password, 
             $salt,
