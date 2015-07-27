@@ -20,7 +20,7 @@ class Halite
     public function encrypt($plaintext)
     {
         $nonce = \Sodium\randombytes_buf(
-            \Sodium::CRYPTO_SECRETBOX_NONCEBYTES
+            \Sodium\CRYPTO_SECRETBOX_NONCEBYTES
         );
         $encrypted = \base64_encode(
             $nonce.
